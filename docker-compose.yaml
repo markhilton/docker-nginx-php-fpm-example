@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  php-fpm:
+    image: crunchgeek/php-fpm:7.3-r7
+    working_dir: /app
+    hostname: php-fpm
+    container_name: php-fpm
+    volumes:
+      - ./app:/app
+      - ./config:/config
+    env_file: .env
+
+  nginx:
+    image: crunchgeek/nginx-pagespeed:1.17.3-r1
+    working_dir: /app
+    hostname: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "8080:8080"
+    links:
+      - php-fpm
+    volumes:
+      - ./app:/app
+      - ./config:/config
+    env_file: .env
